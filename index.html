@@ -18,10 +18,12 @@
       --radius:18px;
       --accent:#4da3ff;
       --accent2:#8c4dff;
+      --ring: rgba(77,163,255,.35);
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
+    html{scroll-behavior:smooth;}
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", sans-serif;
@@ -38,7 +40,7 @@
     /* Header */
     .header{
       position:sticky; top:0; z-index:30;
-      background:rgba(11,16,32,.70);
+      background:rgba(11,16,32,.72);
       backdrop-filter: blur(10px);
       border-bottom:1px solid var(--border);
     }
@@ -75,6 +77,7 @@
       color:var(--muted);
       margin-top:2px;
     }
+
     .nav{
       display:flex; gap:10px; flex-wrap:wrap;
       justify-content:flex-end; align-items:center;
@@ -85,17 +88,27 @@
       font-size:14px;
       color:var(--muted);
       border:1px solid transparent;
+      outline: none;
     }
     .nav a:hover{
       color:var(--text);
       border-color: rgba(255,255,255,.08);
       background: rgba(255,255,255,.05);
     }
+    .nav a:focus-visible{
+      box-shadow: 0 0 0 3px var(--ring);
+      border-color: transparent;
+    }
     .nav a.primary{
       color:#fff;
       border-color: rgba(255,255,255,.12);
       background: linear-gradient(135deg, rgba(77,163,255,1), rgba(140,77,255,.9));
       box-shadow: var(--shadow);
+    }
+    .nav a.active{
+      color: var(--text);
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.10);
     }
 
     /* Hero */
@@ -138,6 +151,11 @@
       border-color: var(--border);
       box-shadow:none;
     }
+    .btn:focus-visible{
+      box-shadow: 0 0 0 3px var(--ring), var(--shadow);
+      outline: none;
+    }
+
     .hero-card{
       border-radius:22px;
       overflow:hidden;
@@ -166,7 +184,6 @@
     }
     .stat .k{font-size:12px; color:var(--muted)}
     .stat .v{font-size:16px; font-weight:900; margin-top:4px}
-
     .hero-card .bottom{
       padding:14px 16px;
       color:var(--muted);
@@ -238,7 +255,7 @@
     .m-name{font-weight:900}
     .m-meta{margin-top:2px; color:var(--muted); font-size:12px; line-height:1.35}
 
-    /* Table */
+    /* Table (Desktop) */
     .table{
       border:1px solid var(--border);
       border-radius: var(--radius);
@@ -303,11 +320,45 @@
       .grid{grid-template-columns: repeat(2, minmax(0, 1fr))}
       .news{grid-template-columns: 1fr}
     }
+
+    /* ✅ Mobile table becomes clean cards (no overlap) */
     @media (max-width: 720px){
-      .row{grid-template-columns: 1fr 1fr}
-      .row > div:nth-child(3),
-      .row > div:nth-child(4){justify-self:start}
+      .row.head{display:none;}
+      .table{
+        background: transparent;
+        border:none;
+      }
+      .row{
+        display:block;
+        padding: 12px 14px;
+        border:1px solid var(--border);
+        border-radius: 16px;
+        background: rgba(255,255,255,.04);
+        margin-bottom:12px;
+      }
+      .row > div{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        padding:8px 0;
+        border-top:1px solid rgba(255,255,255,.08);
+      }
+      .row > div:first-child{
+        border-top:none;
+        padding-top:0;
+        font-weight:900;
+      }
+      .row > div::before{
+        content: attr(data-label);
+        color: var(--muted);
+        font-weight:800;
+        font-size:12px;
+        letter-spacing:.2px;
+      }
+      .pos{margin-right:10px;}
     }
+
     @media (max-width: 520px){
       .grid{grid-template-columns: 1fr}
       .brand{min-width: unset}
@@ -436,14 +487,6 @@
               <div class="m-meta">Doğum ili: 2015</div>
             </div>
           </article>
-
-          <article class="member">
-            <div class="avatar">C-</div>
-            <div>
-              <div class="m-name">Camal (yaşca kiçik)</div>
-              <div class="m-meta">Doğum ili: 2013</div>
-            </div>
-          </article>
         </div>
       </div>
     </section>
@@ -452,28 +495,29 @@
       <div class="container">
         <div class="section-title">
           <h2>Turnir cədvəli</h2>
+          <div class="hint">Format: GF (qollar) • GD (fərq) • Pts (xal)</div>
         </div>
 
         <div class="table" role="table" aria-label="Turnir cədvəli">
           <div class="row head" role="row">
             <div role="columnheader">Komanda</div>
-            <div role="columnheader">Xal</div>
-            <div role="columnheader">Averaj</div>
-            <div role="columnheader">Oyun</div>
+            <div role="columnheader">GF</div>
+            <div role="columnheader">GD</div>
+            <div role="columnheader">Pts</div>
           </div>
 
           <div class="row" role="row">
-            <div role="cell"><span class="pos top">1</span> Yasamal United</div>
-            <div role="cell">12</div>
-            <div role="cell">39</div>
-            <div role="cell">8</div>
+            <div role="cell" data-label="Komanda"><span class="pos top">1</span> Yasamal United</div>
+            <div role="cell" data-label="GF">12</div>
+            <div role="cell" data-label="GD">39</div>
+            <div role="cell" data-label="Pts">8</div>
           </div>
 
           <div class="row" role="row">
-            <div role="cell"><span class="pos me">2</span> Zorfix</div>
-            <div role="cell">9</div>
-            <div role="cell">-39</div>
-            <div role="cell">8</div>
+            <div role="cell" data-label="Komanda"><span class="pos me">2</span> Zorfix</div>
+            <div role="cell" data-label="GF">9</div>
+            <div role="cell" data-label="GD">-39</div>
+            <div role="cell" data-label="Pts">8</div>
           </div>
         </div>
       </div>
@@ -507,7 +551,7 @@
 
           <article class="card">
             <h3>Heyət yeniləndi</h3>
-            <p>Sabahkı oyun üçün bütün oyunçularımız tam hazırdı. Komandamıza ugurlar!</p>
+            <p>Heyət bölməsində oyunçuların siyahısı və doğum illəri dəqiqləşdirildi.</p>
             <div class="date">Fevral 2026</div>
           </article>
         </div>
@@ -523,7 +567,27 @@
   </footer>
 
   <script>
+    // Year
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Active nav link on scroll (professional touch)
+    const links = Array.from(document.querySelectorAll('.nav a[href^="#"]'));
+    const sections = links
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible?.target?.id) setActive(visible.target.id);
+    }, { rootMargin: "-35% 0px -55% 0px", threshold: [0.2, 0.35, 0.5] });
+
+    sections.forEach(s => io.observe(s));
   </script>
 </body>
 </html>
