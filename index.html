@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zorfix — Komanda Saytı</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#111a33;
+      --panel2:#0f1730;
+      --text:#e9ecf5;
+      --muted:#b7c0da;
+      --accent:#4da3ff;
+      --border: rgba(255,255,255,.10);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 600px at 15% 10%, rgba(77,163,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 85% 20%, rgba(140,77,255,.16), transparent 55%),
+        var(--bg);
+    }
+    a{color:inherit}
+    .wrap{width:min(1100px, 92vw); margin:0 auto}
+    .topbar{
+      position:sticky; top:0; z-index:20;
+      background: rgba(11,16,32,.65);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .topbar .wrap{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px; padding:14px 0;
+    }
+    .brand{display:flex; align-items:center; gap:12px; min-width: 220px}
+    .logo{
+      width:44px; height:44px; border-radius:14px;
+      display:grid; place-items:center;
+      font-weight:900;
+      background: linear-gradient(135deg, rgba(77,163,255,.95), rgba(140,77,255,.75));
+      box-shadow: var(--shadow);
+    }
+    .club{font-weight:900; letter-spacing:.2px}
+    .tag{font-size:12px; color:var(--muted)}
+    .nav{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end; align-items:center;
+    }
+    .nav a{
+      text-decoration:none;
+      color:var(--muted);
+      padding:8px 10px;
+      border-radius:12px;
+      font-size:14px;
+    }
+    .nav a:hover{color:var(--text); background: rgba(255,255,255,.06)}
+    .btn{
+      background: linear-gradient(135deg, rgba(77,163,255,1), rgba(140,77,255,.9));
+      color:#fff !important;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+    }
+
+    .hero{padding: 36px 0 18px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    h1{margin:0 0 10px; font-size: clamp(26px, 3.2vw, 44px)}
+    .lead{color:var(--muted); line-height:1.55; max-width: 62ch; margin:0 0 14px}
+    .cta{display:flex; gap:10px; flex-wrap:wrap}
+    .ghost{
+      text-decoration:none;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+    }
+    .ghost:hover{background: rgba(255,255,255,.07)}
+    .card{
+      background: rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:14px;
+    }
+    .hero-card{
+      border-radius: 22px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      background: rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      display:flex; flex-direction:column;
+    }
+    .hero-photo{
+      min-height: 190px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, rgba(77,163,255,.18), rgba(140,77,255,.10));
+      padding: 14px;
+    }
+    .photo-placeholder{
+      width:100%;
+      text-align:center;
+      color:var(--muted);
+      border: 1px dashed rgba(255,255,255,.18);
+      border-radius: 18px;
+      padding: 16px;
+      line-height:1.5;
+    }
+    .hero-note{
+      border-top:1px solid var(--border);
+      padding: 12px 14px;
+      color: var(--muted);
+    }
+
+    .section{padding: 30px 0}
+    .section.alt{
+      background: rgba(255,255,255,.02);
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+    }
+    h2{margin:0 0 14px; font-size: 24px}
+    .small{color:var(--muted); font-size:12px}
+    .head-row{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap}
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:12px;
+    }
+    .player{
+      display:flex; gap:12px; align-items:center;
+      background: rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:12px;
+    }
+    .avatar{
+      width:44px; height:44px; border-radius:16px;
+      display:grid; place-items:center;
+      font-weight:900;
+      background: rgba(77,163,255,.18);
+      border:1px solid rgba(77,163,255,.35);
+      flex:0 0 auto;
+    }
+    .name{font-weight:900}
+    .meta{color:var(--muted); font-size:12px; line-height:1.35}
+    .badge{
+      display:inline-block;
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      margin-left:8px;
+      vertical-align: middle;
+    }
+    .badge.cap{border-color: rgba(255,215,0,.25); color:#ffe9a6}
+    .badge.coach{border-color: rgba(80,220,140,.25); color:#bff3d3}
+
+    .news{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:12px;
+    }
+    .news-card h3{margin:0 0 8px}
+    .news-card p{margin:0 0 10px; color:var(--muted); line-height:1.5}
+
+    .table{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      overflow:hidden;
+      background: rgba(255,255,255,.03);
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1.2fr .7fr .8fr .6fr;
+      gap:10px;
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      align-items:center;
+    }
+    .row.head{
+      background: rgba(255,255,255,.05);
+      border-top:none;
+      font-weight:900;
+      color: var(--muted);
+    }
+    .pill{
+      justify-self:start;
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:900;
+      font-size:12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+    }
+    .me{border-color: rgba(77,163,255,.35)}
+    .top{border-color: rgba(80,220,140,.35)}
+    .neg{border-color: rgba(255,120,120,.30); color:#ffd2d2}
+
+    .footer{
+      padding: 18px 0 34px;
+      border-top:1px solid var(--border);
+      color: var(--muted);
+    }
+    .footer .wrap{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; flex-wrap:wrap;
+    }
+
+    @media (max-width: 920px){
+      .hero-grid{grid-template-columns: 1fr}
+      .nav{justify-content:flex-start}
+      .grid{grid-template-columns: repeat(2, minmax(0,1fr))}
+    }
+    @media (max-width: 720px){
+      .row{grid-template-columns: 1fr 1fr;}
+      .row > div:nth-child(3),
+      .row > div:nth-child(4){justify-self:start}
+    }
+    @media (max-width: 520px){
+      .grid{grid-template-columns: 1fr}
+      .news{grid-template-columns: 1fr}
+      .brand{min-width: unset}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo">ZF</div>
+        <div>
+          <div class="club">Zorfix</div>
+          <div class="tag">Hobbi Futbol Komandası</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#team">Komanda</a>
+        <a href="#table">Turnir cədvəli</a>
+        <a href="#news">Xəbərlər</a>
+        <a class="btn" href="#contact">Əlaqə</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <h1>Zorfix — birlikdə oynayırıq, birlikdə böyüyürük.</h1>
+          <p class="lead">
+            Bu sayt tək HTML səhifəsidir (telefon üçün də uyğundur).
+            Heyət, baş məşqçi, xəbərlər və turnir cədvəli hamısı burada.
+          </p>
+          <div class="cta">
+            <a class="btn" style="text-decoration:none; padding:10px 14px; border-radius:14px;" href="#table">Cədvələ bax</a>
+            <a class="ghost" href="#team">Heyət</a>
+          </div>
+          <div style="margin-top:14px" class="card">
+            <div style="font-weight:900; margin-bottom:6px;">Kapitan</div>
+            <div style="color:var(--muted)">Burhan (2012)</div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-photo">
+            <div class="photo-placeholder">
+              İstəsən buraya komanda fotosu qoyarıq.<br/>
+              (Sonradan <b>img</b> əlavə etmək olar)
+            </div>
+          </div>
+          <div class="hero-note">
+            <strong>Qeyd:</strong> Komanda məlumatları istədiyin kimi dəyişdirilə bilər.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="section alt">
+      <div class="wrap">
+        <div class="head-row">
+          <h2>Komanda</h2>
+          <div class="small">Oyunçular və məşqçi</div>
+        </div>
+
+        <div class="grid">
+          <!-- Coach -->
+          <article class="player">
+            <div class="avatar">M</div>
+            <div>
+              <div class="name">İsmayıllı Ömer <span class="badge coach">Baş məşqçi</span></div>
+              <div class="meta">Komandanın rəhbərliyi və məşq planı</div>
+            </div>
+          </article>
+
+          <!-- Players -->
+          <article class="player">
+            <div class="avatar">RB</div>
+            <div>
+              <div class="name">Reşad</div>
+              <div class="meta">Doğum ili: 2011</div>
+            </div>
+          </article>
+
+          <article class="player">
+            <div class="avatar">MB</div>
+            <div>
+              <div class="name">Mehemmed</div>
+              <div class="meta">Doğum ili: 2011</div>
+            </div>
+          </article>
+
+          <article class="player">
+            <div class="avatar">B</div>
+            <div>
+              <div class="name">Burhan <span class="badge cap">Kapitan</span></div>
+              <div class="meta">Doğum ili: 2012</div>
+            </div>
+          </article>
+
+          <article class="player">
+            <div class="avatar">C+</div>
+            <div>
+              <div class="name">Camal (yaşca böyük)</div>
+              <div class="meta">Doğum ili: 2012</div>
+            </div>
+          </article>
+
+          <article class="player">
+            <div class="avatar">R</div>
+            <div>
+              <div class="name">Resad</div>
+              <div class="meta">Oyunçu</div>
+            </div>
+          </article>
+
+          <article class="player">
+            <div class="avatar">H</div>
+            <div>
+              <div class="name">Harun</div>
+              <div class="meta">Doğum ili: 2015</div>
+            </div>
+          </article>
+
+          <article class="player">
+            <div class="avatar">C-</div>
+            <div>
+              <div class="name">Camal (yaşca kiçik)</div>
+              <div class="meta">Doğum ili: 2013</div>
+            </div>
+          </article>
+        </div>
+
+        <p class="small" style="margin-top:10px">
+          Qeyd: “Resad” üçün doğum ili verməmisən — istəsən əlavə edim.
+        </p>
+      </div>
+    </section>
+
+    <section id="table" class="section">
+      <div class="wrap">
+        <h2>Turnir cədvəli</h2>
+        <div class="small" style="margin-bottom:10px">Format: Komanda | Qollar (GF) | Top fərqi (GD) | Xal (Pts)</div>
+
+        <div class="table">
+          <div class="row head">
+            <div>Komanda</div>
+            <div>GF</div>
+            <div>GD</div>
+            <div>Pts</div>
+          </div>
+
+          <div class="row">
+            <div><span class="pill top">1</span> Yasamal united</div>
+            <div>12</div>
+            <div>39</div>
+            <div>8</div>
+          </div>
+
+          <div class="row">
+            <div><span class="pill me">2</span> Zorfix</div>
+            <div>9</div>
+            <div class="pill neg">-39</div>
+            <div>8</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="news" class="section alt">
+      <div class="wrap">
+        <div class="head-row">
+          <h2>Xəbərlər</h2>
+          <div class="small">Bu hissəni istədiyin kimi yeniləyərik</div>
+        </div>
+
+        <div class="news">
+          <article class="card news-card">
+            <h3>Kapitan seçimi</h3>
+            <p>Komandanın kapitanı olaraq <b>Burhan</b> seçildi. Uğurlar!</p>
+            <div class="small">Fevral 2026</div>
+          </article>
+
+          <article class="card news-card">
+            <h3>Turnir cədvəli yeniləndi</h3>
+            <p>Zorfix hazırda <b>2-ci yerdədir</b>. Növbəti oyun üçün hazırlıq davam edir.</p>
+            <div class="small">Fevral 2026</div>
+          </article>
+
+          <article class="card news-card">
+            <h3>Məşq planı</h3>
+            <p>Baş məşqçi <b>İsmayıllı Ömer</b> həftəlik məşq planını açıqladı.</p>
+            <div class="small">Fevral 2026</div>
+          </article>
+
+          <article class="card news-card">
+            <h3>Komanda heyəti</h3>
+            <p>Heyət bölməsində oyunçuların siyahısı və doğum illəri əlavə olundu.</p>
+            <div class="small">Fevral 2026</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="wrap">
+        <h2>Əlaqə</h2>
+        <div class="grid">
+          <div class="card">
+            <div style="font-weight:900; margin-bottom:6px;">Instagram</div>
+            <div class="small">@zorfix_fc</div>
+          </div>
+          <div class="card">
+            <div style="font-weight:900; margin-bottom:6px;">Telegram</div>
+            <div class="small">t.me/zorfix_fc</div>
+          </div>
+          <div class="card">
+            <div style="font-weight:900; margin-bottom:6px;">Email</div>
+            <div class="small">zorfix@example.com</div>
+          </div>
+        </div>
+        <p class="small" style="margin-top:10px">
+          Buradakı əlaqə məlumatları demo kimidir — istəsən sənin real linklərini yazıb yerləşdirim.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>© <span id="y"></span> Zorfix</div>
+      <div class="small">Tək HTML səhifəsi • Mobil uyğun</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
